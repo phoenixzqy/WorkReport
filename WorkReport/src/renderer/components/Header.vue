@@ -35,7 +35,7 @@ export default {
   background-image: url("../assets/header_bg.jpg");
   color: rgb(255, 255, 255);
   padding: 5px 30px;
-  margin-bottom: 50px;
+  margin-bottom: 25px;
   p {
     margin-top: -15px;
   }

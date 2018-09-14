@@ -10,15 +10,15 @@
 </template>
 
 <script>
-  export default {
-    name: 'work-report',
-    data() {
-      return {}
-    },
-    components: {
-      Navi: require('@/components/Navi').default
-    }
+export default {
+  name: "work-report",
+  data() {
+    return {};
+  },
+  components: {
+    Navi: require("@/components/Navi").default
   }
+};
 </script>
 
 <style lang="scss">
@@ -37,13 +37,45 @@
     }
     &:nth-child(2) {
       flex-grow: 2;
-      background-color: #eee;
+      background-color: rgb(249, 248, 255);
     }
   }
 }
 .wrapper {
   max-width: 600px;
   margin: auto;
+}
+.content-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 25px;
+  -webkit-box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.44);
+  -moz-box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.44);
+  box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.44);
+}
+.row-container {
+  display: flex;
+  width: 100%;
+  margin: 30px 0;
+  .left-container {
+    flex-basis: 150px;
+  }
+  .right-container {
+    flex-grow: 1;
+  }
+}
+.sub-options {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+}
+.buttons-container {
+  display: inline-block;
+  width: 100%;
+  margin: 30px 0;
+  align-content: center;
+  text-align: center;
 }
 </style>
 
