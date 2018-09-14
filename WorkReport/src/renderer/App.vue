@@ -59,7 +59,7 @@ export default {
   width: 100%;
   margin: 30px 0;
   .left-container {
-    flex-basis: 150px;
+    flex-basis: 120px;
   }
   .right-container {
     flex-grow: 1;
