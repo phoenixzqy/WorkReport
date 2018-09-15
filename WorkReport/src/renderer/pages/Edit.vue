@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header 
-    title="Report" 
+    title="Editing" 
     description="Create or edit your daily report"
     />
     <div class="wrapper content-container">
@@ -75,13 +75,18 @@
       </div>
       <!-- buttons -->
       <div class="buttons-container">
-        <el-button class="items" type="warning">Reset to default</el-button>
-        <el-button class="items" type="success">Save changes</el-button>
+        <el-button 
+        class="items" 
+        @click="save"
+        type="success">Save changes</el-button>
       </div>
     </div>
   </div>
 </template>
 <script>
+import Calendar from "../../models/Calendar.js";
+import helpers from "../../utils/helpers.js";
+
 export default {
   data() {
     return {
@@ -91,6 +96,59 @@ export default {
       progress: 0,
       comments: ""
     };
+  },
+  mounted() {
+    this.loadReport();
+  },
+  watch: {
+    date(val) {
+      this.loadReport();
+    }
+  },
+  methods: {
+    loadReport() {
+      var data = Calendar.find({
+        id: helpers.formatDateTime(this.date, "y-m-d")
+      }).value();
+      if (data) {
+        this.tasks = data.tasks;
+        this.workingHours = data.working_hours;
+        this.progress = data.progress;
+        this.comments = data.comments;
+      } else {
+        this.tasks = "";
+        this.workingHours = 8;
+        this.progress = 0;
+        this.comments = "";
+      }
+    },
+    save() {
+      var dataObj = Calendar.find({
+        id: helpers.formatDateTime(this.date, "y-m-d")
+      });
+      if (dataObj.value()) {
+        // update existing data
+        dataObj
+          .set("tasks", this.tasks)
+          .set("working_hours", this.workingHours)
+          .set("progress", this.progress)
+          .set("comments", this.comments)
+          .write();
+      } else {
+        // create new data
+        Calendar.push({
+          id: helpers.formatDateTime(this.date, "y-m-d"),
+          tasks: this.tasks,
+          working_hours: this.workingHours,
+          progress: this.progress,
+          comments: this.comments
+        }).write();
+      }
+      this.$message({
+        message: "Your report has been saved",
+        type: "success"
+      });
+    }
   },
   components: {
     Header: require("@/components/Header").default

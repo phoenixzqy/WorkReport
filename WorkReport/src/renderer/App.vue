@@ -42,7 +42,7 @@ export default {
   }
 }
 .wrapper {
-  max-width: 600px;
+  width: 650px;
   margin: auto;
 }
 .content-container {
@@ -50,9 +50,9 @@ export default {
   padding: 20px;
   border-radius: 5px;
   margin-bottom: 25px;
-  -webkit-box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.44);
-  -moz-box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.44);
-  box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.44);
+  -webkit-box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.1);
 }
 .row-container {
   display: flex;

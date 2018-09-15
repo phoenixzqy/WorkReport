@@ -36,6 +36,7 @@ export default {
   color: rgb(255, 255, 255);
   padding: 5px 30px;
   margin-bottom: 25px;
+  
   p {
     margin-top: -15px;
   }

@@ -13,6 +13,7 @@
         <div class="right-container">
           <el-input 
           placeholder="Your database path" 
+          disabled
           size="mini"
           v-model="dbPath"></el-input>
           <span style="color: #888; margin-top: 5px; display:block;">
@@ -83,23 +84,58 @@
        </transition>
       <!-- buttons -->
       <div class="buttons-container">
-        <el-button class="items" type="warning">Reset to default</el-button>
-        <el-button class="items" type="success">Save changes</el-button>
+        <el-button 
+        class="items" 
+        @click="reset"
+        type="warning">Reset to default</el-button>
+        <el-button 
+        class="items" 
+        @click="save"
+        type="success">Save changes</el-button>
       </div>
     </div>
   </div>
 </template>
 <script>
+import UserConfig from "../../models/UserConfig.js";
+import SysConfig from "../../models/SysConfig.js";
+
 export default {
   data() {
     return {
-      reportFormat: "",
-      dbPath: "",
-      enableAlert: true,
-      enableDailyAlert: true,
-      emailAddress: "",
-      frequencyRule: ""
+      reportFormat: UserConfig.getUserConfig().report_format,
+      dbPath: SysConfig.getUserConfigDir(),
+      enableAlert: UserConfig.getUserConfig().enable_alert,
+      emailAddress: UserConfig.getUserConfig().email_address,
+      frequencyRule: UserConfig.getUserConfig().frequency_rule
     };
+  },
+  methods: {
+    reset() {
+      // reset everything except dbPath.
+      this.reportFormat = UserConfig.defaultUserConfig.report_format;
+      this.enableAlert = UserConfig.defaultUserConfig.enable_alert;
+      this.emailAddress = UserConfig.defaultUserConfig.email_address;
+      this.frequencyRule = UserConfig.defaultUserConfig.frequency_rule;
+      SysConfig.resetDefault();
+      UserConfig.resetDefault();
+      this.$message({
+        message: "Your settings has been reset",
+        type: "success"
+      });
+    },
+    save() {
+      UserConfig.writeUserConfig({
+        report_format: this.reportFormat,
+        enable_alert: this.enableAlert,
+        email_address: this.emailAddress,
+        frequency_rule: this.frequencyRule
+      });
+      this.$message({
+        message: "Your settings has been updated",
+        type: "success"
+      });
+    }
   },
   components: {
     Header: require("@/components/Header").default
