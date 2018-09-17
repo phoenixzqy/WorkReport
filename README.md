@@ -18,3 +18,11 @@ An Electron based app for user to record daily/weekly work report, generate week
 ## dev and build
 
 [Readme](https://github.com/phoenixzqy/WorkReport/tree/master/WorkReport)
+
+## Screenshots
+
+![Editing page](https://github.com/phoenixzqy/WorkReport/blob/master/images/editing_page.png?raw=true)
+
+![Report Page](https://github.com/phoenixzqy/WorkReport/blob/master/images/report_page.png?raw=true)
+
+![Setting Page](https://github.com/phoenixzqy/WorkReport/blob/master/images/setting_page.png?raw=true)
