@@ -2,6 +2,12 @@
 
 An Electron based app for user to record daily/weekly work report, generate weekly report by given templates and will be able to automatically submit report to company server.
 
+## How it works
+
+1. You just need to keep daily work report with some brief description. 
+2. You could setup any weekly report template based on your company code. Or you can just use the default template.
+3. The report page will always generate weekly report based on the template and the corresponding date you choose.
+
 ## Dependencies
 
 * electron-vue
