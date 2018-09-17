@@ -5,10 +5,53 @@ const sysConfig = require("./SysConfig").default;
 var dir = sysConfig.getUserConfigDir();
 var path = `${dir}/user_config.json`;
 const defaultUserConfig = {
-    report_format: "",
+    report_template: `Weekly Report
+==
+**Submitted by** Name
+
+**Period** %day_of_week_1 → %day_of_week_5
+
+Urgent!
+--
+
+> Immediate feedback or action is needed
+
+Reminder
+--
+
+> Still waiting for...
+> Waiting for...since...
+> Waiting for...until...
+
+Issues
+--
+
+> You shall report here the problems encountered during the reporting period and expected to be resolved in a regular way, with no need for the additional resources.Suggest an action plan.
+
+Daily work
+--
+
+> You shall list here your own activities as well as activities of the unit that reports to you for the reporting period.Support your report with facts and numbers highlighting the achieved results.
+
+> | Index | Date | Task | Progress | Working Hours | Extra Comments |
+|---|---|---|---|---|---|
+%daily_report
+| %count |%date | %tasks | %progress% | %working_hours | %comments |
+%daily_report_end
+
+Plans for next week
+--
+
+> You shall briefly specify what are your next priorities for the next reporting period.Rank them as: important and urgent, just important, and just urgent.
+
+Requests and proposals
+--
+
+> Ideas, suggestions, enquiries for complementary information or requests for the allocation of additional resources.`,
     enable_alert: false,
     email_address: "",
     frequency_rule: "0 17 * * *",
+    alert_message: "Hi, don't forget to record your work report! :D"
 }
 
 function checkUserConfig() {

@@ -43,7 +43,7 @@
           <el-input-number 
           v-model="workingHours" 
           size="mini"
-          :min="1" :max="8"></el-input-number>
+          :min="1" :max="24"></el-input-number>
         </div>
       </div>
        <!-- % complete -->

@@ -7,14 +7,6 @@ const dir = `${homedir}/Documents/WorkReport`;
 const path = `${dir}/sys_config.json`;
 const defaultSysConfig = {
     user_config_dir: `${dir}`,
-    dict: [
-        "%count",
-        "%tasks",
-        "%date",
-        "%progress",
-        "%working_hours",
-        "%comments"
-    ]
 }
 
 function checkSysConfig() {
@@ -44,9 +36,6 @@ export default {
         var config = getSysConfig();
         config.user_config_dir = uPath;
         writeSysConfig(config);
-    },
-    getDict() {
-        return getSysConfig().dict
     },
     defaultSysConfig,
     resetDefault() {

@@ -26,6 +26,11 @@ export default {
             0
         );
     },
+    getDayOfWeek(date, targetDay) {
+        var d = new Date(date);
+        var diff = targetDay - d.getDay();
+        return new Date(d.setDate(d.getDate() + diff));
+    },
     // y: year, m: month, d: date
     // h: hour, i: minute, s: second
     formatDateTime(date, format) {

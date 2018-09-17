@@ -16,15 +16,15 @@
           disabled
           size="mini"
           v-model="dbPath"></el-input>
-          <span style="color: #888; margin-top: 5px; display:block;">
+          <!-- <span style="color: #888; margin-top: 5px; display:block;">
             You can use Cloudy Services (like Google Drive and Dropbox)<br> to sync your data.
-            </span>
+            </span> -->
         </div>
       </div>
       <!-- format -->
       <div class="row-container">
         <div class="left-container">
-          <span>Report Format:</span>
+          <span>Report Template:</span>
         </div>
         <div class="right-container">
           <el-input
@@ -77,7 +77,20 @@
               Everyday at 5:00pm: 0 17 * * * <br>
               Every friday at 5:00pm: 0 17 * * 5 <br>
               </span>
-              
+            </div>
+          </div>
+          <div class="row-container">
+            <div class="left-container">
+              <span>Alert Message:</span>
+            </div>
+            <div class="right-container">
+              <el-input
+                type="textarea"
+                size="mini"
+                :rows="5"
+                placeholder="Your alert message"
+                v-model="alertMessage">
+              </el-input>
             </div>
           </div>
         </div>
@@ -103,20 +116,22 @@ import SysConfig from "../../models/SysConfig.js";
 export default {
   data() {
     return {
-      reportFormat: UserConfig.getUserConfig().report_format,
+      reportFormat: UserConfig.getUserConfig().report_template,
       dbPath: SysConfig.getUserConfigDir(),
       enableAlert: UserConfig.getUserConfig().enable_alert,
       emailAddress: UserConfig.getUserConfig().email_address,
-      frequencyRule: UserConfig.getUserConfig().frequency_rule
+      frequencyRule: UserConfig.getUserConfig().frequency_rule,
+      alertMessage: UserConfig.getUserConfig().alert_message
     };
   },
   methods: {
     reset() {
       // reset everything except dbPath.
-      this.reportFormat = UserConfig.defaultUserConfig.report_format;
+      this.reportFormat = UserConfig.defaultUserConfig.report_template;
       this.enableAlert = UserConfig.defaultUserConfig.enable_alert;
       this.emailAddress = UserConfig.defaultUserConfig.email_address;
       this.frequencyRule = UserConfig.defaultUserConfig.frequency_rule;
+      this.alertMessage = UserConfig.getUserConfig().alert_message;
       SysConfig.resetDefault();
       UserConfig.resetDefault();
       this.$message({
@@ -126,10 +141,11 @@ export default {
     },
     save() {
       UserConfig.writeUserConfig({
-        report_format: this.reportFormat,
+        report_template: this.reportFormat,
         enable_alert: this.enableAlert,
         email_address: this.emailAddress,
-        frequency_rule: this.frequencyRule
+        frequency_rule: this.frequencyRule,
+        alert_message: this.alertMessage
       });
       this.$message({
         message: "Your settings has been updated",
