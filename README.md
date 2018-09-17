@@ -14,3 +14,7 @@ An Electron based app for user to record daily/weekly work report, generate week
 
 * crontab based System Notification/Email Alert function
 * crontab based auto-submission function (either email or through ajax)
+
+## dev and build
+
+[Readme](https://github.com/phoenixzqy/WorkReport/tree/master/WorkReport)
