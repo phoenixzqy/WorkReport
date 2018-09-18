@@ -71,10 +71,7 @@ export default {
         }).value();
         if (data) {
           var tempStr = loopBody;
-          tempStr = tempStr.replace(
-            new RegExp("%count", "g"),
-            String(count++)
-          );
+          tempStr = tempStr.replace(new RegExp("%count", "g"), String(count++));
           tempStr = tempStr.replace(
             new RegExp("%tasks", "g"),
             String(data.tasks)
