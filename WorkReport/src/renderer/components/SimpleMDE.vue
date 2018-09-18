@@ -25,7 +25,7 @@ export default {
   mounted() {
     this.mde = new simplemde({
       element: this.$refs.area,
-      spellChecker: true
+      spellChecker: false
       // Put your extra SimpleMDE settings here.
     });
     this.mde.value(this.value);
