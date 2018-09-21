@@ -5,6 +5,7 @@
     description="Create or edit your daily report"
     />
     <div class="wrapper content-container">
+      <span class="saving-loader" v-show="saving"><i class="el-icon-loading"></i> Saving</span>
       <!-- date -->
       <div class="row-container">
         <div class="left-container">
@@ -73,13 +74,6 @@
           </el-input>
         </div>
       </div>
-      <!-- buttons -->
-      <div class="buttons-container">
-        <el-button 
-        class="items" 
-        @click="save"
-        type="success">Save changes</el-button>
-      </div>
     </div>
   </div>
 </template>
@@ -94,16 +88,32 @@ export default {
       tasks: "",
       workingHours: 8,
       progress: 0,
-      comments: ""
+      comments: "",
+      saving: false
     };
   },
   mounted() {
     this.loadReport();
-  },
-  watch: {
-    date(val) {
+    var lastDate = this.date;
+    this.$watch(
+      function() {
+        return (
+          this.tasks +
+          this.workingHours.toString() +
+          this.progress.toString() +
+          this.comments
+        );
+      },
+      function(val) {
+        if(lastDate == this.date) {
+          helpers.debounce(this.save, 500)();
+        }
+        lastDate = this.date;
+      }
+    );
+    this.$watch("date", function() {
       this.loadReport();
-    }
+    });
   },
   methods: {
     loadReport() {
@@ -123,6 +133,12 @@ export default {
       }
     },
     save() {
+      this.saving = true;
+      var that = this;
+      setTimeout(function() {
+        that.saving = false;
+      }, 1000);
+
       var dataObj = Calendar.find({
         id: helpers.formatDateTime(this.date, "y-m-d")
       });
@@ -144,10 +160,6 @@ export default {
           comments: this.comments
         }).write();
       }
-      this.$message({
-        message: "Your report has been saved",
-        type: "success"
-      });
     }
   },
   components: {
@@ -155,3 +167,17 @@ export default {
   }
 };
 </script>
+<style scoped>
+.saving-loader {
+  color: #1ea71e;
+  position: absolute;
+  right: 30px;
+  bottom: 20px;
+  display: inline-block;
+  background: #fff;
+  padding: 5px 10px;
+  border: 1px solid rgb(176, 255, 144);
+  border-radius: 5px;
+}
+</style>
+
