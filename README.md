@@ -18,12 +18,22 @@ An Electron based app for user to record daily/weekly work report, generate week
 
 ## TODO
 
+* Editing page, create a side panel to show brief summary of current selected week.
 * crontab based System Notification/Email Alert function
 * crontab based auto-submission function (either email or through ajax)
 
 ## dev and build
 
-[Readme](https://github.com/phoenixzqy/WorkReport/tree/master/WorkReport)
+[Readme](https://github.com/phoenixzqy/WorkReport/tree/master/work-report)
+
+**Tips:**
+
+* After building the app, you will have your app under `work-report/build`. The file named `work-report-0.0.1-x86_64.AppImage` is your executable file.
+* When you run `work-report-0.0.1-x86_64.AppImage`, it will ask you to install/register you app to yor system. If you want this app to be handy, you can select `yes`.
+
+**Note:**
+
+* for Windows user, please forward to official electron documentation for detail instructions.
 
 ## Screenshots
 
