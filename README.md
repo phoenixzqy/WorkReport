@@ -26,6 +26,8 @@ An Electron based app for user to record daily/weekly work report, generate week
 * crontab based System Notification/Email Alert function
 * crontab based auto-submission function (either email or through ajax)
   * auto-submission should be an extension like function, due to the variaty of different company weekly report submission process. 
+* Improve Logging system. 
+* Maybe should add basic Auth system? This function needs some discussion with more users.
 
 ## dev and build
 
