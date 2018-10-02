@@ -64,7 +64,7 @@ export default {
       );
       var loopArr = [];
       var count = 1;
-      for (var i = 0; i <= 7; i++) {
+      for (var i = 1; i <= 7; i++) {
         var d = helpers.getDayOfWeek(this.date, i);
         var data = Calendar.find({
           id: helpers.formatDateTime(d, "y-m-d")

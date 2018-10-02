@@ -23,7 +23,7 @@ export default {
 
 <style lang="scss">
 #app {
-  display: flex;
+  display: block;
   height: 100%;
   width: 100%;
   position: fixed;
@@ -33,11 +33,13 @@ export default {
     height: 100%;
     overflow-y: auto;
     &:nth-child(1) {
-      flex-basis: auto;
+      position: relative;
+      float: left;
     }
     &:nth-child(2) {
-      flex-grow: 2;
+      position: relative;
       background-color: rgb(249, 248, 255);
+      background-image: url("./assets/app_bg.jpg");
     }
   }
 }
@@ -46,7 +48,7 @@ export default {
   margin: auto;
 }
 .content-container {
-  background-color: #fff;
+  background-color: #f8fcff;
   padding: 20px;
   border-radius: 5px;
   margin-bottom: 25px;
