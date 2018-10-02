@@ -34,6 +34,7 @@
             placeholder="Your report format"
             v-model="reportFormat">
           </el-input>
+        <parser-doc/>
         </div>
       </div>
       <!-- Email alert -->
@@ -46,7 +47,8 @@
             v-model="enableAlert"
             size="mini"
             active-text="Enable"
-            inactive-text="Disable">
+            inactive-text="Disable"
+            disabled>
           </el-switch>
         </div>
       </div>
@@ -154,7 +156,8 @@ export default {
     }
   },
   components: {
-    Header: require("@/components/Header").default
+    Header: require("@/components/Header").default,
+    ParserDoc: require("@/components/ParserDoc").default
   }
 };
 </script>

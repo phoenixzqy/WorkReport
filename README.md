@@ -18,8 +18,8 @@ An Electron based app for user to record daily/weekly work report, generate week
 
 ## TODO
 
-* Editing page, create a side panel to show brief summary of current selected week.
-* Add brief documentation/hints in app to explain template variables.
+* ~~Editing page, create a side panel to show brief summary of current selected week.~~
+* ~~Add brief documentation/hints in app to explain template variables.~~
 * Add system level alert to alert/enforce user to finish daily report every day at certain time(configurable). It could be a popup window.
 * Add system level alert to remind user to write daily report of yesterday if he/she forget to do so.
 * Improve `Download` function of report page.
