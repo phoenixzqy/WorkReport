@@ -7,6 +7,8 @@
     <span class="saving-loader" v-show="saving"><i class="el-icon-loading"></i> Saving</span>
     <div class="editer-container">
       <div class="left-penal">
+        <!-- clock timer -->
+        <span style="color: #67c23a;">Now: {{clock}}</span>
         <!-- date -->
         <div class="row-container">
           <div class="left-container">
@@ -99,7 +101,7 @@
               </tr>
             </table>
           </div>
-          <div v-else 
+          <div v-else
           class="summary-card" 
           :class="{'summary-weekend' : report.is_weekend}">
              <span class="summary-title summary-empty">{{report.date}}</span>
@@ -114,6 +116,7 @@
 <script>
 import Calendar from "../../models/Calendar.js";
 import helpers from "../../utils/helpers.js";
+import UserConfig from "../../models/UserConfig.js";
 
 export default {
   data() {
@@ -124,7 +127,10 @@ export default {
       progress: 0,
       comments: "",
       saving: false,
-      weekData: []
+      weekData: [],
+
+      clock: "",
+      showWeekend: UserConfig.getUserConfig().show_weekend
     };
   },
   mounted() {
@@ -132,10 +138,12 @@ export default {
     var lastDate = this.date;
     this.$watch(
       function() {
+        var p = this.progress ? this.progress.toString() : "0";
+        var w = this.workingHours ? this.workingHours.toString() : "0";
         return (
           this.tasks +
-          this.workingHours.toString() +
-          this.progress.toString() +
+          w +
+          p +
           this.comments
         );
       },
@@ -149,6 +157,12 @@ export default {
     this.$watch("date", function() {
       this.loadReport();
     });
+
+    // clock timer
+    var that = this;
+    setInterval(function() {
+      that.clock = helpers.formatDateTime(new Date(), "y-m-d h:i:s");
+    }, 1000);
   },
   methods: {
     loadReport() {
@@ -172,7 +186,8 @@ export default {
     loadWeeklySummary() {
       // load current week
       this.weekData = [];
-      for (var i = 1; i <= 7; i++) {
+      var dayEnd = this.showWeekend ? 7 : 5;
+      for (var i = 1; i <= dayEnd; i++) {
         var d = helpers.getDayOfWeek(this.date, i);
         var data = Calendar.find({
           id: helpers.formatDateTime(d, "y-m-d")
@@ -193,27 +208,36 @@ export default {
         that.saving = false;
       }, 1000);
 
-      var dataObj = Calendar.find({
-        id: helpers.formatDateTime(this.date, "y-m-d")
-      });
-      if (dataObj.value()) {
-        // update existing data
-        dataObj
-          .set("tasks", this.tasks)
-          .set("working_hours", this.workingHours)
-          .set("progress", this.progress)
-          .set("comments", this.comments)
-          .write();
-      } else {
-        // create new data
-        Calendar.push({
-          id: helpers.formatDateTime(this.date, "y-m-d"),
-          tasks: this.tasks,
-          working_hours: this.workingHours,
-          progress: this.progress,
-          comments: this.comments
+      if (!this.tasks && !this.progress && !this.comments) {
+        // remove empty log from db
+        Calendar.remove({
+          id: helpers.formatDateTime(this.date, "y-m-d")
         }).write();
+      } else {
+        var dataObj = Calendar.find({
+          id: helpers.formatDateTime(this.date, "y-m-d")
+        });
+        // create or update
+        if (dataObj.value()) {
+          // update existing data
+          dataObj
+            .set("tasks", this.tasks)
+            .set("working_hours", this.workingHours)
+            .set("progress", this.progress)
+            .set("comments", this.comments)
+            .write();
+        } else {
+          // create new data
+          Calendar.push({
+            id: helpers.formatDateTime(this.date, "y-m-d"),
+            tasks: this.tasks,
+            working_hours: this.workingHours,
+            progress: this.progress,
+            comments: this.comments
+          }).write();
+        }
       }
+
       that.loadWeeklySummary();
     }
   },
@@ -237,7 +261,7 @@ export default {
 .editer-container {
   display: flex;
   margin-top: -25px;
-  height: calc(100vh - 91px);
+  height: calc(100vh - 96px);
   .left-penal,
   .right-penal {
     overflow-y: auto;
@@ -297,7 +321,7 @@ export default {
     border-color: #1b560a;
   }
   .summary-empty {
-    color:#67c23a;
+    color: #67c23a;
   }
 }
 </style>

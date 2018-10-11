@@ -49,6 +49,7 @@ Requests and proposals
 
 > Ideas, suggestions, enquiries for complementary information or requests for the allocation of additional resources.`,
     enable_alert: false,
+    show_weekend: false,
     email_address: "",
     frequency_rule: "0 17 * * *",
     alert_message: "Hi, don't forget to record your work report! :D"

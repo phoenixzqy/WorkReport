@@ -37,6 +37,20 @@
         <parser-doc/>
         </div>
       </div>
+      <!-- Show/Hide weekend -->
+      <div class="row-container">
+        <div class="left-container">
+          <span>Weekend:</span>
+        </div>
+        <div class="right-container">
+          <el-switch
+            v-model="showWeekend"
+            size="mini"
+            active-text="Show"
+            inactive-text="Hide">
+          </el-switch>
+        </div>
+      </div>
       <!-- Email alert -->
       <div class="row-container">
         <div class="left-container">
@@ -123,7 +137,8 @@ export default {
       enableAlert: UserConfig.getUserConfig().enable_alert,
       emailAddress: UserConfig.getUserConfig().email_address,
       frequencyRule: UserConfig.getUserConfig().frequency_rule,
-      alertMessage: UserConfig.getUserConfig().alert_message
+      alertMessage: UserConfig.getUserConfig().alert_message,
+      showWeekend: UserConfig.getUserConfig().show_weekend
     };
   },
   methods: {
@@ -134,6 +149,7 @@ export default {
       this.emailAddress = UserConfig.defaultUserConfig.email_address;
       this.frequencyRule = UserConfig.defaultUserConfig.frequency_rule;
       this.alertMessage = UserConfig.getUserConfig().alert_message;
+      this.showWeekend = UserConfig.defaultUserConfig.show_weekend;
       SysConfig.resetDefault();
       UserConfig.resetDefault();
       this.$message({
@@ -147,7 +163,8 @@ export default {
         enable_alert: this.enableAlert,
         email_address: this.emailAddress,
         frequency_rule: this.frequencyRule,
-        alert_message: this.alertMessage
+        alert_message: this.alertMessage,
+        show_weekend: this.showWeekend
       });
       this.$message({
         message: "Your settings has been updated",
