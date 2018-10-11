@@ -129,7 +129,7 @@ export default {
       saving: false,
       weekData: [],
 
-      clock: "",
+      clock: helpers.formatDateTime(new Date(), "y-m-d h:i:s"),
       showWeekend: UserConfig.getUserConfig().show_weekend
     };
   },
