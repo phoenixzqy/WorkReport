@@ -54,7 +54,7 @@
       <!-- Email alert -->
       <div class="row-container">
         <div class="left-container">
-          <span>Email Alert:</span>
+          <span>Alert:</span>
         </div>
         <div class="right-container">
           <el-switch
@@ -62,53 +62,92 @@
             size="mini"
             active-text="Enable"
             inactive-text="Disable"
-            disabled>
+            >
           </el-switch>
         </div>
       </div>
       <!-- alert settings -->
       <transition name="el-zoom-in-center">
         <div class="sub-options" v-show="enableAlert">
-          <div class="row-container">
-            <div class="left-container">
-              <span>Target Email:</span>
-            </div>
-            <div class="right-container">
-              <el-input 
-              size="mini"
-              placeholder="Your email address to receive alerts" 
-              v-model="emailAddress"></el-input>
-            </div>
-          </div>
-          <div class="row-container">
-            <div class="left-container">
-              <span>Frequency Rule:</span>
-            </div>
-            <div class="right-container">
-              <el-input 
-              size="mini"
-              placeholder="Cron style frequency rule" 
-              v-model="frequencyRule"></el-input>
-              <span style="color: #888; margin-top: 5px; display:block;">Tips: <br>
-              Everyday at 5:00pm: 0 17 * * * <br>
-              Every friday at 5:00pm: 0 17 * * 5 <br>
-              </span>
-            </div>
-          </div>
-          <div class="row-container">
-            <div class="left-container">
-              <span>Alert Message:</span>
-            </div>
-            <div class="right-container">
-              <el-input
-                type="textarea"
+          <table class="alert-table">
+            <caption>Your Alerts</caption>
+            <tr>
+              <th>Frequency</th>
+              <th>Message</th>
+              <th style="text-align: center;">Operation</th>
+            </tr>
+            <!-- user added alerts -->
+            <tr v-for="(alert, id) in alerts" :key="id">
+              <td>{{alert.frequency_rule}}</td>
+              <td>{{alert.alert_message}}</td>
+              <td style="text-align: center;">
+                <el-button 
+                type="danger" 
+                icon="el-icon-delete" 
+                @click="deleteAlert(id)"
                 size="mini"
-                :rows="5"
-                placeholder="Your alert message"
-                v-model="alertMessage">
-              </el-input>
-            </div>
-          </div>
+                circle/>
+                </td>
+            </tr>
+            <!-- add new alert -->
+            <tr>
+              <td>
+                <el-input 
+                size="mini"
+                :max="20"
+                style="width: 120px;"
+                placeholder="Cron style frequency rule" 
+                v-model="frequencyRule"/>
+                <el-popover
+                  placement="right-start"
+                  trigger="hover">
+                      <h3 style="color: #444; margin: 0 0 5px 0; display:block;">Quick Tips: </h3>
+                      <table class="alert-table">
+                        <tr>
+                          <th>Code</th>
+                          <th>Description</th>
+                          <th>Apply</th>
+                        </tr>
+                        <tr v-for="(tip, id) in frequencyTips" :key="id">
+                          <td>{{tip.code}}</td>
+                          <td>{{tip.desc}}</td>
+                          <td>
+                            <el-button 
+                            type="primary" 
+                            icon="el-icon-check" 
+                            @click="frequencyRule = tip.code"
+                            size="mini"
+                            circle/>
+                          </td>
+                        </tr>
+                      </table>
+                  <span 
+                  style="color: #409eff; padding: 5px;display: inline-block;" 
+                  slot="reference">
+                      <i class="el-icon-question" ></i>
+                  </span>
+                </el-popover>
+              </td>
+              <td>
+                <el-input
+                  size="mini"
+                  type="textarea"
+                  :max="100"
+                  :rows="2"
+                  placeholder="Your alert message"
+                  v-model="alertMessage">
+                </el-input>
+              </td>
+              <td style="text-align: center;">
+                <el-button 
+                  type="primary" 
+                  icon="el-icon-plus" 
+                  @click="addAlert"
+                  size="mini"
+                  circle/>
+              </td>
+            </tr>
+          </table>
         </div>
        </transition>
       <!-- buttons -->
@@ -128,6 +167,7 @@
 <script>
 import UserConfig from "../../models/UserConfig.js";
 import SysConfig from "../../models/SysConfig.js";
+import Notification from "../../models/Notification.js";
 
 export default {
   data() {
@@ -135,21 +175,42 @@ export default {
       reportFormat: UserConfig.getUserConfig().report_template,
       dbPath: SysConfig.getUserConfigDir(),
       enableAlert: UserConfig.getUserConfig().enable_alert,
-      emailAddress: UserConfig.getUserConfig().email_address,
-      frequencyRule: UserConfig.getUserConfig().frequency_rule,
-      alertMessage: UserConfig.getUserConfig().alert_message,
-      showWeekend: UserConfig.getUserConfig().show_weekend
+      showWeekend: UserConfig.getUserConfig().show_weekend,
+      alerts: UserConfig.getUserConfig().alerts,
+      frequencyRule: "",
+      alertMessage: "",
+      frequencyTips: [
+        {
+          code: "30 16 * * *",
+          desc: "Everyday at 4:30pm"
+        },
+        {
+          code: "0 17 * * *",
+          desc: "Everyday at 5:00pm"
+        },
+        {
+          code: "0 17 * * 5",
+          desc: "Every Friday at 5:00pm"
+        },
+        {
+          code: "0 17 1 * *",
+          desc: "Every 1st day of month at 5:00pm"
+        },
+      ]
     };
   },
+  mounted() {
+    if(UserConfig.getUserConfig().enable_alert) {
+      Notification.start();
+    }
+},
   methods: {
     reset() {
       // reset everything except dbPath.
       this.reportFormat = UserConfig.defaultUserConfig.report_template;
       this.enableAlert = UserConfig.defaultUserConfig.enable_alert;
-      this.emailAddress = UserConfig.defaultUserConfig.email_address;
-      this.frequencyRule = UserConfig.defaultUserConfig.frequency_rule;
-      this.alertMessage = UserConfig.getUserConfig().alert_message;
       this.showWeekend = UserConfig.defaultUserConfig.show_weekend;
+      this.alerts = UserConfig.defaultUserConfig.alerts;
       SysConfig.resetDefault();
       UserConfig.resetDefault();
       this.$message({
@@ -161,15 +222,42 @@ export default {
       UserConfig.writeUserConfig({
         report_template: this.reportFormat,
         enable_alert: this.enableAlert,
-        email_address: this.emailAddress,
-        frequency_rule: this.frequencyRule,
-        alert_message: this.alertMessage,
+        alerts: this.alerts,
         show_weekend: this.showWeekend
       });
       this.$message({
         message: "Your settings has been updated",
         type: "success"
       });
+      // restart scheduled notifications
+      if(this.enableAlert) {
+        Notification.restart();
+      } else {
+        Notification.stop();
+      }
+    },
+    deleteAlert(id) {
+      this.alerts.splice(id, 1);
+    },
+    addAlert() {
+      if (this.frequencyRule && this.alertMessage) {
+        this.alerts.push({
+          frequency_rule: this.frequencyRule,
+          alert_message: this.alertMessage
+        });
+        this.frequencyRule = "";
+        this.alertMessage = "";
+      } else {
+        this.$message({
+          type: "error",
+          message: "Both 'Frequency Rule' and 'Alert Message' are required!"
+        });
+      }
+    }
+  },
+  watch: {
+    notificationTime(v) {
+      console.log(v);
     }
   },
   components: {
@@ -178,3 +266,22 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.alert-table {
+  border-collapse: collapse;
+  width: 100%;
+  caption {
+    color: rgb(35, 144, 252);
+    font-size: 18px;
+    background-color: rgb(207, 229, 252);
+    padding: 5px;
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+  }
+}
+</style>
+

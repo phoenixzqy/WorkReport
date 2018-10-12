@@ -15,16 +15,17 @@ An Electron based app for user to record daily/weekly work report, generate week
 * simpleMDE
 * lowdb
 * node-cron
+* node-notifier
 
 ## TODO
 
 * ~~Editing page, create a side panel to show brief summary of current selected week.~~
 * ~~Add brief documentation/hints in app to explain template variables.~~
 * ~~Add "Delete" feature for daily report~~
+* ~~Add system level alert/notification to remind user to write daily report~~
+* ~~crontab based System Notification~~
 * Add system level alert to alert/enforce user to finish daily report every day at certain time(configurable). It could be a popup window.
-* Add system level alert to remind user to write daily report of yesterday if he/she forget to do so.
 * Improve `Download` function of report page.
-* crontab based System Notification/Email Alert function
 * crontab based auto-submission function (either email or through ajax)
   * auto-submission should be an extension like function, due to the variaty of different company weekly report submission process. 
 * Improve Logging system. 
