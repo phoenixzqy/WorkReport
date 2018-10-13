@@ -67,7 +67,7 @@ function createWindow() {
   });
 
   // Tray
-  tray = new Tray(Helplers.getIconPath());
+  tray = new Tray(Helplers.getIconPath()); 
   const contextMenu = Menu.buildFromTemplate([{
       label: 'Edit',
       type: 'normal',

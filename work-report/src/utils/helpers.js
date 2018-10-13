@@ -90,6 +90,8 @@ export default {
         };
     },
     getIconPath() {
-        return path.join(__dirname, '/../renderer/assets/icon.png');
+        return process.env.NODE_ENV === 'development' ?
+            path.resolve(__dirname, '../../build/icons/256x256.png'):
+            path.resolve(__dirname, '../../../../work-report.png');
     }
 }
