@@ -2,11 +2,23 @@
 
 An Electron based app for user to record daily/weekly work report, generate weekly report by given templates and will be able to automatically submit report to company server.
 
-## How it works
+## Features
 
-1. You just need to keep daily work report with some brief description. 
+* Highly Customizable weekly report template
+* Highly Customizable System Alert/Reminder functionality
+* Auto-saving
+* Background mode.
+* Portable json file based database. No need to install any DB software
+* Markdown support
+* Cross platform/OS: Linux, MacOS and Windows
+* Open Source
+
+## Workflow
+
+1. You need to keep this app alive to get Reminders/Alerts work.
 2. You could setup any weekly report template based on your company code. Or you can just use the default template.
-3. The report page will always generate weekly report based on the template and the corresponding date you choose.
+3. You just need to keep daily work report with some brief description. 
+4. The report page will always generate weekly report based on the template and the corresponding date you choose.
 
 ## Dependencies
 
@@ -24,6 +36,8 @@ An Electron based app for user to record daily/weekly work report, generate week
 * ~~Add "Delete" feature for daily report~~
 * ~~Add system level alert/notification to remind user to write daily report~~
 * ~~crontab based System Notification~~
+* ~~Add Tray support~~
+* ~~Background mode~~
 * Add system level alert to alert/enforce user to finish daily report every day at certain time(configurable). It could be a popup window.
 * Improve `Download` function of report page.
 * crontab based auto-submission function (either email or through ajax)

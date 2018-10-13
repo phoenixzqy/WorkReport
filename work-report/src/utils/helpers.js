@@ -1,4 +1,5 @@
 "use strict";
+const path = require("path");
 
 export default {
     numberWithCommas(x) {
@@ -87,6 +88,8 @@ export default {
                 fun.apply(that, _args);
             }
         };
+    },
+    getIconPath() {
+        return path.join(__dirname, '/../renderer/assets/icon.png');
     }
-
 }

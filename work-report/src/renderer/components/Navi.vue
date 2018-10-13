@@ -1,6 +1,6 @@
 <template>
   <el-menu 
-  default-active="0" 
+  :default-active="defaultActive" 
   style="height: 100%;"
   :collapse="true">
     <router-link 
@@ -34,9 +34,28 @@ export default {
           icon: "el-icon-setting",
           route: "setting-page",
           label: "Setting"
+        },
+        {
+          icon: "el-icon-info",
+          route: "about-page",
+          label: "About"
         }
-      ]
+      ],
+      defaultActive: "0"
     };
+  },
+  mounted() {
+    var that = this;
+    // HACK: change default active when the window is reloaded asynchronizely, since the 
+    // route is changed after this component is loaded
+    setTimeout(function() {
+      for (var i in that.naviList) {
+        if (that.naviList[i].route === that.$route.name) {
+          that.defaultActive = i;
+          break;
+        }
+      }
+    }, 5);
   }
 };
 </script>

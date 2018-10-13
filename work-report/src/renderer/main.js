@@ -20,6 +20,16 @@ new Vue({
   components: {
     App
   },
+  mounted() {
+    var url = window.location.href;
+    if (url.indexOf("page=") >= 0) {
+      var name = url.substr(url.indexOf("page=") + 5);
+      name = name.substr(0, name.indexOf("#/"));
+      this.$router.push({
+        name
+      });
+    }
+  },
   router,
   store,
   template: '<App/>'

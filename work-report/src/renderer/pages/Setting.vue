@@ -49,9 +49,45 @@
             active-text="Show"
             inactive-text="Hide">
           </el-switch>
+          <el-popover
+            placement="right-start"
+            width="300"
+            trigger="hover">
+            <span>By turning this on, you will include weekends in weekly summary of editing page</span>
+            <span 
+            style="color: #409eff; padding: 5px;display: inline-block;" 
+            slot="reference">
+                <i class="el-icon-question" ></i>
+            </span>
+          </el-popover>
         </div>
       </div>
-      <!-- Email alert -->
+      <!-- Hide on close -->
+      <div class="row-container">
+        <div class="left-container">
+          <span>Hide on Close:</span>
+        </div>
+        <div class="right-container">
+          <el-switch
+            v-model="hideOnClose"
+            size="mini"
+            active-text="On"
+            inactive-text="Off">
+          </el-switch>
+          <el-popover
+            placement="right-start"
+            width="300"
+            trigger="hover">
+            <span>By turning this on, app will run at background while you close it. You can always call it back from your Tray</span>
+            <span 
+            style="color: #409eff; padding: 5px;display: inline-block;" 
+            slot="reference">
+                <i class="el-icon-question" ></i>
+            </span>
+          </el-popover>
+        </div>
+      </div>
+      <!-- alert -->
       <div class="row-container">
         <div class="left-container">
           <span>Alert:</span>
@@ -179,6 +215,7 @@ export default {
       alerts: UserConfig.getUserConfig().alerts,
       frequencyRule: "",
       alertMessage: "",
+      hideOnClose: UserConfig.getUserConfig().hide_on_close,
       frequencyTips: [
         {
           code: "30 16 * * *",
@@ -211,6 +248,7 @@ export default {
       this.enableAlert = UserConfig.defaultUserConfig.enable_alert;
       this.showWeekend = UserConfig.defaultUserConfig.show_weekend;
       this.alerts = UserConfig.defaultUserConfig.alerts;
+      this.hideOnClose = UserConfig.defaultUserConfig.hide_on_close;
       SysConfig.resetDefault();
       UserConfig.resetDefault();
       this.$message({
@@ -223,7 +261,8 @@ export default {
         report_template: this.reportFormat,
         enable_alert: this.enableAlert,
         alerts: this.alerts,
-        show_weekend: this.showWeekend
+        show_weekend: this.showWeekend,
+        hide_on_close: this.hideOnClose
       });
       this.$message({
         message: "Your settings has been updated",

@@ -1,6 +1,7 @@
 const Notifier = require('node-notifier');
 const Cron = require('node-cron');
 const UserConfig = require("./UserConfig").default;
+const helpers = require("../utils/helpers").default;
 var jobs = [];
 
 export default {
@@ -16,6 +17,7 @@ export default {
                             Notifier.notify({
                                 title: 'Work Report',
                                 message: message,
+                                icon: helpers.getIconPath(),
                                 sound: true, // Only Notification Center or Windows Toasters
                                 wait: true // Wait with callback, until user action is taken against notification
                             });

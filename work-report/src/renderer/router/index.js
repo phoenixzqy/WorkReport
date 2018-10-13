@@ -1,9 +1,9 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
 
-Vue.use(Router)
+Vue.use(Router);
 
-export default new Router({
+const myRouter = new Router({
   routes: [{
       path: '/',
       name: 'edit-page',
@@ -18,10 +18,15 @@ export default new Router({
       path: '/report',
       name: 'report-page',
       component: require('@/pages/Report').default
+    }, {
+      path: '/about',
+      name: 'about-page',
+      component: require('@/pages/About').default
     },
     {
       path: '*',
       redirect: '/'
     }
   ]
-})
+});
+export default myRouter;

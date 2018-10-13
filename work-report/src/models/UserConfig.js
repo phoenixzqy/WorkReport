@@ -54,7 +54,8 @@ Requests and proposals
     alerts: [{
         frequency_rule: "0 17 * * *",
         alert_message: "Hi, don't forget to record your work report! :D"
-    }]
+    }],
+    hide_on_close: true,
 };
 
 function checkUserConfig() {
