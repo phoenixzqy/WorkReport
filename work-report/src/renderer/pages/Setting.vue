@@ -222,8 +222,12 @@ export default {
           desc: "Everyday at 4:30pm"
         },
         {
-          code: "0 17 * * *",
-          desc: "Everyday at 5:00pm"
+          code: "30 16 * * 1-5",
+          desc: "Every workday at 4:30pm"
+        },
+        {
+          code: "0 17 * * 1-5",
+          desc: "Every workday at 5:00pm"
         },
         {
           code: "0 17 * * 5",

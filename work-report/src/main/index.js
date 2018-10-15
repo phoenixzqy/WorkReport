@@ -65,7 +65,7 @@ function createWindow() {
       quit();
     }
   });
-
+  
   // Tray
   tray = new Tray(Helplers.getIconPath()); 
   const contextMenu = Menu.buildFromTemplate([{

@@ -38,21 +38,34 @@ An Electron based app for user to record daily/weekly work report, generate week
 * ~~crontab based System Notification~~
 * ~~Add Tray support~~
 * ~~Background mode~~
-* Add system level alert to alert/enforce user to finish daily report every day at certain time(configurable). It could be a popup window.
+* ~~ system level alert to alert/enforce user to finish daily report every day at certain time(configurable). It could be a popup window.~~ Not going to do this.
 * Improve `Download` function of report page.
 * crontab based auto-submission function (either email or through ajax)
-  * auto-submission should be an extension like function, due to the variaty of different company weekly report submission process. 
-* Improve Logging system. 
+  * auto-submission should be an extension like function, due to the variety of different company weekly report submission process.
+* Improve Logging system.
 * Maybe should add basic Auth system? This function needs some discussion with more users.
 
 ## dev and build
 
-[Readme](https://github.com/phoenixzqy/WorkReport/tree/master/work-report)
+#### Build Setup
+
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:9080
+npm run dev
+
+# build electron application for production
+npm run build
+```
+
+[Read More](https://github.com/phoenixzqy/WorkReport/tree/master/work-report)
 
 **Tips:**
 
-* After building the app, you will have your app under `work-report/build`. The file named `work-report-0.0.1-x86_64.AppImage` is your executable file.
-* When you run `work-report-0.0.1-x86_64.AppImage`, it will ask you to install/register you app to yor system. If you want this app to be handy, you can select `yes`.
+* After building the app, you will have your app under `work-report/build`. The file named like `work-report-0.0.1-x86_64.AppImage` is your executable file.
+* When you run `work-report-0.0.1-x86_64.AppImage`, it will ask you to install/register your app to system. If you want this app to be handy, please select `yes`.
 
 **Note:**
 
