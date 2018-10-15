@@ -38,7 +38,7 @@ An Electron based app for user to record daily/weekly work report, generate week
 * ~~crontab based System Notification~~
 * ~~Add Tray support~~
 * ~~Background mode~~
-* ~~ system level alert to alert/enforce user to finish daily report every day at certain time(configurable). It could be a popup window.~~ Not going to do this.
+* ~~system level alert to alert/enforce user to finish daily report every day at certain time(configurable). It could be a popup window.~~ Not going to do this.
 * Improve `Download` function of report page.
 * crontab based auto-submission function (either email or through ajax)
   * auto-submission should be an extension like function, due to the variety of different company weekly report submission process.
