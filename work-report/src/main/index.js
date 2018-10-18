@@ -8,6 +8,7 @@ import {
 } from 'electron';
 import Helplers from '../utils/helpers';
 import UserConfig from "../models/UserConfig";
+import Notification from "../models/Notification";
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -40,12 +41,12 @@ function createWindow() {
     minHeight: 600,
     show: false,
     backgroundColor: '#2e2c29'
-  })
+  });
 
   mainWindow.loadURL(winURL)
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
-  })
+  });
   // mainWindow.on('closed', () => {
   //   if (UserConfig.getUserConfig().hide_on_close) {
   //     mainWindow.hide();
@@ -65,9 +66,9 @@ function createWindow() {
       quit();
     }
   });
-  
+
   // Tray
-  tray = new Tray(Helplers.getIconPath()); 
+  tray = new Tray(Helplers.getIconPath());
   const contextMenu = Menu.buildFromTemplate([{
       label: 'Edit',
       type: 'normal',
@@ -119,12 +120,19 @@ function createWindow() {
         quit();
       }
     },
-  ])
-  tray.setToolTip('This is my application.')
-  tray.setContextMenu(contextMenu)
+  ]);
+  tray.setToolTip('This is my application.');
+  tray.setContextMenu(contextMenu);
+
+  // notifications
+  Notification.start();
+  UserConfig.onChange(() => {
+    Notification.restart();
+  });
+
 }
 
-app.on('ready', createWindow)
+app.on('ready', createWindow);
 
 // app.on('window-all-closed', () => {
 //   if (process.platform !== 'darwin' && app.isQuiting) {

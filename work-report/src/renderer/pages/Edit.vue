@@ -134,18 +134,19 @@ export default {
     };
   },
   mounted() {
+    var that = this;
+    UserConfig.onChange(() => {
+      that.showWeekend = UserConfig.getUserConfig().show_weekend;
+      that.loadReport();
+    });
+
     this.loadReport();
     var lastDate = this.date;
     this.$watch(
       function() {
         var p = this.progress ? this.progress.toString() : "0";
         var w = this.workingHours ? this.workingHours.toString() : "0";
-        return (
-          this.tasks +
-          w +
-          p +
-          this.comments
-        );
+        return this.tasks + w + p + this.comments;
       },
       function(val) {
         if (lastDate == this.date) {
@@ -167,7 +168,7 @@ export default {
   methods: {
     loadReport() {
       // load current day
-      var data = Calendar.find({
+      var data = Calendar.database.find({
         id: helpers.formatDateTime(this.date, "y-m-d")
       }).value();
       if (data) {
@@ -189,7 +190,7 @@ export default {
       var dayEnd = this.showWeekend ? 7 : 5;
       for (var i = 1; i <= dayEnd; i++) {
         var d = helpers.getDayOfWeek(this.date, i);
-        var data = Calendar.find({
+        var data = Calendar.database.find({
           id: helpers.formatDateTime(d, "y-m-d")
         }).value();
         this.weekData.push({
@@ -210,11 +211,11 @@ export default {
 
       if (!this.tasks && !this.progress && !this.comments) {
         // remove empty log from db
-        Calendar.remove({
+        Calendar.database.remove({
           id: helpers.formatDateTime(this.date, "y-m-d")
         }).write();
       } else {
-        var dataObj = Calendar.find({
+        var dataObj = Calendar.database.find({
           id: helpers.formatDateTime(this.date, "y-m-d")
         });
         // create or update
@@ -228,7 +229,7 @@ export default {
             .write();
         } else {
           // create new data
-          Calendar.push({
+          Calendar.database.push({
             id: helpers.formatDateTime(this.date, "y-m-d"),
             tasks: this.tasks,
             working_hours: this.workingHours,

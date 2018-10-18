@@ -203,7 +203,6 @@
 <script>
 import UserConfig from "../../models/UserConfig.js";
 import SysConfig from "../../models/SysConfig.js";
-import Notification from "../../models/Notification.js";
 
 export default {
   data() {
@@ -236,15 +235,10 @@ export default {
         {
           code: "0 17 1 * *",
           desc: "Every 1st day of month at 5:00pm"
-        },
+        }
       ]
     };
   },
-  mounted() {
-    if(UserConfig.getUserConfig().enable_alert) {
-      Notification.start();
-    }
-},
   methods: {
     reset() {
       // reset everything except dbPath.
@@ -272,12 +266,6 @@ export default {
         message: "Your settings has been updated",
         type: "success"
       });
-      // restart scheduled notifications
-      if(this.enableAlert) {
-        Notification.restart();
-      } else {
-        Notification.stop();
-      }
     },
     deleteAlert(id) {
       this.alerts.splice(id, 1);
@@ -296,11 +284,6 @@ export default {
           message: "Both 'Frequency Rule' and 'Alert Message' are required!"
         });
       }
-    }
-  },
-  watch: {
-    notificationTime(v) {
-      console.log(v);
     }
   },
   components: {

@@ -5,6 +5,10 @@
     description="Generate weekly report with any format you like"
     />
     <div class="wrapper content-container">
+      <p v-show="showHint">Your settings or calendar data has been changed. Would you like to 
+        <a href="javascript:;" @click="refresh">refresh</a>
+        this report? 
+        <span style="color: red;">You will lose your changes by doing this.</span></p>
       <!-- date -->
       <div class="row-container">
           <span style="margin-right: 15px; padding-top: 8px;">Date: </span>
@@ -30,16 +34,25 @@ export default {
   data() {
     return {
       report: "",
-      date: new Date()
+      date: new Date(),
+      showHint: false,
     };
   },
   mounted() {
     this.parse();
+
+    var that = this;
+    UserConfig.onChange(() => {
+      that.showHint = true;
+    });
+    Calendar.onChange(() => {
+      that.showHint = true;
+    })
   },
   watch: {
     date() {
       this.parse();
-
+      
       this.$message({
         message: "Your report has been regenerated",
         type: "success"
@@ -66,7 +79,7 @@ export default {
       var count = 1;
       for (var i = 1; i <= 7; i++) {
         var d = helpers.getDayOfWeek(this.date, i);
-        var data = Calendar.find({
+        var data = Calendar.database.find({
           id: helpers.formatDateTime(d, "y-m-d")
         }).value();
         if (data) {
@@ -107,6 +120,10 @@ export default {
       }
       // replace the loop variables
       this.report = this.loopParser(format);
+    },
+    refresh() {
+      this.parse();
+      this.showHint = false;
     }
   },
   components: {

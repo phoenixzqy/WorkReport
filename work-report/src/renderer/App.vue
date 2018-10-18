@@ -4,7 +4,9 @@
       <Navi/>
     </div>
     <div class="app-box">
-      <router-view></router-view>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </div>
   </div>
 </template>

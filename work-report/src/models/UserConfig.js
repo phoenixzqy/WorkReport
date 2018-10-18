@@ -73,10 +73,16 @@ function writeUserConfig(data) {
 function getUserConfig() {
     return JSON.parse(fs.readFileSync(path));
 }
+function onChange(cb) {
+    fs.watchFile(path,{
+        interval: 1000
+    }, cb);
+}
 export default {
     writeUserConfig,
     getUserConfig,
     defaultUserConfig,
+    onChange,
     resetDefault() {
         writeUserConfig(defaultUserConfig)
     }
