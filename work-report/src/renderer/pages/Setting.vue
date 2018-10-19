@@ -90,7 +90,7 @@
       <!-- alert -->
       <div class="row-container">
         <div class="left-container">
-          <span>Alert:</span>
+          <span>Reminders:</span>
         </div>
         <div class="right-container">
           <el-switch
@@ -106,16 +106,33 @@
       <transition name="el-zoom-in-center">
         <div class="sub-options" v-show="enableAlert">
           <table class="alert-table">
-            <caption>Your Alerts</caption>
+            <caption>Your Reminders</caption>
             <tr>
               <th>Frequency</th>
               <th>Message</th>
-              <th style="text-align: center;">Operation</th>
+              <th>
+                <el-popover
+                  placement="top"
+                  width="100"
+                  trigger="hover">
+                      <span>Force the app window to show above all the other
+                         apps at the moment of your reminder.</span>
+                  <span 
+                  style="color: #409eff;" 
+                  slot="reference">
+                      <i class="el-icon-edit" ></i>
+                  </span>
+                </el-popover>
+              </th>
+              <th style="text-align: center;"> <i class="el-icon-setting"></i> </th>
             </tr>
             <!-- user added alerts -->
             <tr v-for="(alert, id) in alerts" :key="id">
               <td>{{alert.frequency_rule}}</td>
               <td>{{alert.alert_message}}</td>
+              <td style="text-align: center;">
+                <el-checkbox v-model="alert.focus_window"></el-checkbox>
+              </td>
               <td style="text-align: center;">
                 <el-button 
                 type="danger" 
@@ -158,7 +175,7 @@
                         </tr>
                       </table>
                   <span 
-                  style="color: #409eff; padding: 5px;display: inline-block;" 
+                  style="color: #409eff; padding: 5px;display:" 
                   slot="reference">
                       <i class="el-icon-question" ></i>
                   </span>
@@ -173,6 +190,9 @@
                   placeholder="Your alert message"
                   v-model="alertMessage">
                 </el-input>
+              </td>
+              <td style="text-align: center;">
+                <el-checkbox v-model="focusWindow"></el-checkbox>
               </td>
               <td style="text-align: center;">
                 <el-button 
@@ -203,6 +223,7 @@
 <script>
 import UserConfig from "../../models/UserConfig.js";
 import SysConfig from "../../models/SysConfig.js";
+var cron = require("node-cron");
 
 export default {
   data() {
@@ -214,6 +235,7 @@ export default {
       alerts: UserConfig.getUserConfig().alerts,
       frequencyRule: "",
       alertMessage: "",
+      focusWindow: false,
       hideOnClose: UserConfig.getUserConfig().hide_on_close,
       frequencyTips: [
         {
@@ -272,12 +294,21 @@ export default {
     },
     addAlert() {
       if (this.frequencyRule && this.alertMessage) {
+        if (!cron.validate(this.frequencyRule)) {
+          this.$message({
+            type: "error",
+            message: "Invalid frequency format!"
+          });
+          return;
+        }
         this.alerts.push({
           frequency_rule: this.frequencyRule,
-          alert_message: this.alertMessage
+          alert_message: this.alertMessage,
+          focus_window: this.focusWindow
         });
         this.frequencyRule = "";
         this.alertMessage = "";
+        this.focusWindow = false;
       } else {
         this.$message({
           type: "error",

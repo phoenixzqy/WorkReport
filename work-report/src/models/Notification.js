@@ -5,24 +5,31 @@ const helpers = require("../utils/helpers").default;
 var jobs = [];
 
 export default {
-    start() {
+    start(mainWindow) {
         var conf = UserConfig.getUserConfig();
         if (!conf.enable_alert || !conf.alerts.length || jobs.length) return;
         for (let i in conf.alerts) {
             jobs.push(
                 Cron.schedule(
                     conf.alerts[i].frequency_rule,
-                    ((message) => {
+                    ((currentAlert) => {
                         return function () {
                             Notifier.notify({
                                 title: 'Work Report',
-                                message: message,
+                                message: currentAlert.message,
                                 icon: helpers.getIconPath(),
                                 sound: true, // Only Notification Center or Windows Toasters
                                 wait: true // Wait with callback, until user action is taken against notification
                             });
-                        }
-                    })(conf.alerts[i].alert_message)
+                            if (currentAlert.focus_window) {
+                                // bring main window to front
+                                setTimeout(function () {
+                                    mainWindow.show();
+                                    mainWindow.focus();
+                                }, 700);
+                            }
+                        };
+                    })(conf.alerts[i])
                 )
             );
         }
@@ -33,8 +40,8 @@ export default {
         }
         jobs = [];
     },
-    restart() {
+    restart(mainWindow) {
         this.stop();
-        this.start();
+        this.start(mainWindow);
     }
 }

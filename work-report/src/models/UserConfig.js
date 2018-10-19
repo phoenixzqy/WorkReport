@@ -53,7 +53,8 @@ Requests and proposals
     email_address: "",
     alerts: [{
         frequency_rule: "0 17 * * *",
-        alert_message: "Hi, don't forget to record your work report! :D"
+        alert_message: "Hi, don't forget to record your work report! :D",
+        focus_window: true
     }],
     hide_on_close: true,
 };

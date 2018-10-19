@@ -125,9 +125,9 @@ function createWindow() {
   tray.setContextMenu(contextMenu);
 
   // notifications
-  Notification.start();
+  Notification.start(mainWindow);
   UserConfig.onChange(() => {
-    Notification.restart();
+    Notification.restart(mainWindow);
   });
 
 }
