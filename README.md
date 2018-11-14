@@ -13,7 +13,7 @@ An Electron based app for user to record daily/weekly work report, generate week
 * Cross platform/OS: Linux, MacOS and Windows
 * Open Source
 
-NOTE: It is so sad that Tray function may NOT work in some linux distros like CentOS, due to those distros don't support that functionality. So please DISABLE "Close on Hide" in setting page, otherwise you have to kill the process to close the app on your own!
+NOTE: It is so sad that Tray function may NOT work in some linux distros like CentOS, due to lack of Tray function support. So please DISABLE "Close on Hide" in setting page, otherwise you have to kill the process to close the app on your own!
 
 ## Workflow
 
