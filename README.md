@@ -51,11 +51,12 @@ An Electron based app for user to record daily/weekly work report, generate week
 
 ``` bash
 # install dependencies
-npm install
+yarn install
 
 # serve with hot reload at localhost:9080
 npm run dev
 
+# --- OR ---
 # build electron application for production
 npm run build
 ```
